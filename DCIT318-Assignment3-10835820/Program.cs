@@ -235,6 +235,19 @@ namespace DCIT318_Assignment3
             }
             Console.WriteLine();
         }
+        public void Run()
+        {
+            Console.WriteLine("=== HealthSystemApp Demo ===");
+            SeedData();
+            BuildPrescriptionMap();
+            PrintAllPatients();
+
+            // pick one patient id to display
+            PrintPrescriptionsForPatient(1);
+            Console.WriteLine("HealthSystemApp finished.\n");
+        }
+    }
+
 
 
 
