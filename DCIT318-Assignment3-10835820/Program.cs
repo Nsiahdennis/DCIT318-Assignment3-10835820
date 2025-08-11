@@ -426,6 +426,24 @@ namespace DCIT318_Assignment3
             {
                 Console.WriteLine($"Caught exception: {ex.Message}");
             }
+            // Try to remove a non-existent item
+            RemoveItemById(_groceries, 999); // should show error
+
+            // Try to update with invalid quantity
+            try
+            {
+                Console.WriteLine("Attempting to set invalid quantity (-5) for electronic item ID 2...");
+                _electronics.UpdateQuantity(2, -5);
+            }
+            catch (InvalidQuantityException ex)
+            {
+                Console.WriteLine($"Caught exception: {ex.Message}");
+            }
+
+            Console.WriteLine("WareHouseManager Demo finished.\n");
+        }
+    }
+
 
 
 
