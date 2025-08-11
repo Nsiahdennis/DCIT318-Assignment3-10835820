@@ -532,6 +532,46 @@ namespace DCIT318_Assignment3
         }
     }
     // QUESTION 5 - Inventory Logger with Records
+    // a) Immutable Inventory record and b) marker interface for logging
+    public interface IInventoryEntity
+    {
+        int Id { get; }
+    }
+
+    public record InventoryItem(int Id, string Name, int Quantity, DateTime DateAdded) : IInventoryEntity;
+
+    // c) Generic InventoryLogger
+    public class InventoryLogger<T> where T : IInventoryEntity
+    {
+        private readonly List<T> _log = new();
+        private readonly string _filePath;
+
+        public InventoryLogger(string filePath)
+        {
+            _filePath = filePath;
+        }
+
+        public void Add(T item)
+        {
+            _log.Add(item);
+        }
+
+        public List<T> GetAll() => new List<T>(_log);
+
+        public void SaveToFile()
+        {
+            try
+            {
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                var json = JsonSerializer.Serialize(_log, options);
+                File.WriteAllText(_filePath, json);
+                Console.WriteLine($"Saved {_log.Count} items to {_filePath}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving to file: {ex.Message}");
+            }
+        }
 
 
 
