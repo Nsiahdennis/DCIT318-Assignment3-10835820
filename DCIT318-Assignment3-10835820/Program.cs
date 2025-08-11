@@ -531,6 +531,7 @@ namespace DCIT318_Assignment3
             }
         }
     }
+    // QUESTION 5 - Inventory Logger with Records
 
 
 
