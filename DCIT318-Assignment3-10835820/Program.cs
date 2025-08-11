@@ -572,6 +572,29 @@ namespace DCIT318_Assignment3
                 Console.WriteLine($"Error saving to file: {ex.Message}");
             }
         }
+        public void LoadFromFile()
+        {
+            try
+            {
+                if (!File.Exists(_filePath))
+                {
+                    Console.WriteLine($"Log file {_filePath} not found. Starting with empty log.");
+                    return;
+                }
+
+                var json = File.ReadAllText(_filePath);
+                var items = JsonSerializer.Deserialize<List<T>>(json);
+                _log.Clear();
+                if (items != null) _log.AddRange(items);
+                Console.WriteLine($"Loaded {_log.Count} items from {_filePath}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading from file: {ex.Message}");
+            }
+        }
+    }
+
 
 
 
