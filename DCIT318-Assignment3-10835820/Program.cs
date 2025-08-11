@@ -345,6 +345,40 @@ namespace DCIT318_Assignment3
             item.Quantity = newQuantity;
         }
     }
+    // WareHouseManager
+    public class WareHouseManager
+    {
+        private readonly InventoryRepository<ElectronicItem> _electronics = new();
+        private readonly InventoryRepository<GroceryItem> _groceries = new();
+
+        public void SeedData()
+        {
+            try
+            {
+                _electronics.AddItem(new ElectronicItem(1, "Laptop", 5, "TechBrand", 24));
+                _electronics.AddItem(new ElectronicItem(2, "Headphones", 10, "AudioCorp", 12));
+                _electronics.AddItem(new ElectronicItem(3, "Monitor", 4, "ViewMax", 36));
+
+                _groceries.AddItem(new GroceryItem(101, "Rice - 25kg", 20, DateTime.Now.AddMonths(12)));
+                _groceries.AddItem(new GroceryItem(102, "Milk - 1L", 30, DateTime.Now.AddDays(7)));
+                _groceries.AddItem(new GroceryItem(103, "Sugar - 2kg", 15, DateTime.Now.AddMonths(6)));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"SeedData error: {ex.Message}");
+            }
+        }
+
+        public void PrintAllItems<T>(InventoryRepository<T> repo) where T : IInventoryItem
+        {
+            var items = repo.GetAllItems();
+            Console.WriteLine($"--- Listing items of type {typeof(T).Name} ---");
+            foreach (var it in items)
+            {
+                Console.WriteLine(it);
+            }
+            Console.WriteLine();
+        }
 
 
 
