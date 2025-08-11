@@ -505,6 +505,32 @@ namespace DCIT318_Assignment3
                 {
                     throw new InvalidScoreFormatException($"Line {lineNumber}: Invalid ID format.");
                 }
+                // name
+                var name = parts[1];
+                if (string.IsNullOrWhiteSpace(name))
+                    throw new MissingFieldException($"Line {lineNumber}: Missing student name.");
+
+                // score parse
+                if (!int.TryParse(parts[2], out int score))
+                {
+                    throw new InvalidScoreFormatException($"Line {lineNumber}: Score '{parts[2]}' is not a valid integer.");
+                }
+
+                students.Add(new Student(id, name, score));
+            }
+
+            return students;
+        }
+
+        public void WriteReportToFile(List<Student> students, string outputFilePath)
+        {
+            using var writer = new StreamWriter(outputFilePath);
+            foreach (var s in students)
+            {
+                writer.WriteLine($"{s.FullName} (ID: {s.Id}): Score = {s.Score}, Grade = {s.GetGrade()}");
+            }
+        }
+    }
 
 
 
