@@ -1,54 +1,67 @@
-﻿using System;
+﻿// Program.cs
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
 
-namespace DCIT318_Assignment2
+// Namespace for the entire assignment
+namespace DCIT318_Assignment3
 {
-    // ============================
-    // 1. Inheritance & Overriding
-    // ============================
-    class Animal
+    // --------------------------
+    // QUESTION 1 - Finance App
+    // --------------------------
+
+    // a) Transaction record
+    public record Transaction(int Id, DateTime Date, decimal Amount, string Category);
+
+    // b) Interface for transaction processors
+    public interface ITransactionProcessor
     {
-        public virtual void MakeSound()
+        void Process(Transaction transaction);
+    }
+
+    // c) Concrete processors
+    public class BankTransferProcessor : ITransactionProcessor
+    {
+        public void Process(Transaction transaction)
         {
-            Console.WriteLine("Some generic sound");
+            Console.WriteLine($"[BankTransfer] Processing transaction #{transaction.Id}: {transaction.Amount:C} for {transaction.Category}");
         }
     }
 
-    class Dog : Animal
+    public class MobileMoneyProcessor : ITransactionProcessor
     {
-        public override void MakeSound()
+        public void Process(Transaction transaction)
         {
-            Console.WriteLine("Bark");
+            Console.WriteLine($"[MobileMoney] Processing transaction #{transaction.Id}: {transaction.Amount:C} for {transaction.Category}");
         }
     }
 
-    class Cat : Animal
+    public class CryptoWalletProcessor : ITransactionProcessor
     {
-        public override void MakeSound()
+        public void Process(Transaction transaction)
         {
-            Console.WriteLine("Meow");
-        }
-    }
-    // =====================
-    // 3. Interfaces
-    // =====================
-    interface IMovable
-    {
-        void Move();
-    }
-
-    class Car : IMovable
-    {
-        public void Move()
-        {
-            Console.WriteLine("Car is moving");
+            Console.WriteLine($"[CryptoWallet] Processing transaction #{transaction.Id}: {transaction.Amount:C} for {transaction.Category}");
         }
     }
 
-    class Bicycle : IMovable
+    // d) Base Account class
+    public class Account
     {
-        public void Move()
+        public string AccountNumber { get; }
+        public decimal Balance { get; protected set; }
+
+        public Account(string accountNumber, decimal initialBalance)
         {
-            Console.WriteLine("Bicycle is moving");
+            AccountNumber = accountNumber;
+            Balance = initialBalance;
+        }
+
+        public virtual void ApplyTransaction(Transaction transaction)
+        {
+            // By default deduct amount
+            Balance -= transaction.Amount;
+            Console.WriteLine($"Account {AccountNumber}: Applied transaction #{transaction.Id}. New balance: {Balance:C}");
         }
     }
-
