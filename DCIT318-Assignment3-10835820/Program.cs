@@ -594,6 +594,54 @@ namespace DCIT318_Assignment3
             }
         }
     }
+    public class InventoryApp
+    {
+        private readonly InventoryLogger<InventoryItem> _logger = new("inventory_log.json");
+
+        public void SeedSampleData()
+        {
+            _logger.Add(new InventoryItem(1, "Screwdriver", 50, DateTime.Now));
+            _logger.Add(new InventoryItem(2, "Hammer", 30, DateTime.Now));
+            _logger.Add(new InventoryItem(3, "Nails Pack", 500, DateTime.Now));
+            _logger.Add(new InventoryItem(4, "Wrench", 20, DateTime.Now));
+        }
+
+        public void SaveData() => _logger.SaveToFile();
+
+        public void LoadData() => _logger.LoadFromFile();
+
+        public void PrintAllItems()
+        {
+            var items = _logger.GetAll();
+            Console.WriteLine("=== Inventory Items ===");
+            foreach (var it in items)
+            {
+                Console.WriteLine($"#{it.Id} - {it.Name}, Qty: {it.Quantity}, Added: {it.DateAdded:yyyy-MM-dd}");
+            }
+            Console.WriteLine();
+        }
+    }
+
+    // --------------------------
+    // Main Program - orchestrates all demos
+    // --------------------------
+    class Program
+    {
+        static void Main()
+        {
+            Console.WriteLine("DCIT 318 - Assignment 3 Demo\n");
+
+            // Question 1 Demo
+            var financeApp = new FinanceApp();
+            financeApp.Run();
+
+            // Question 2 Demo
+            var healthApp = new HealthSystemApp();
+            healthApp.Run();
+
+            // Question 3 Demo
+            var warehouse = new WareHouseManager();
+            warehouse.RunDemo();
 
 
 
