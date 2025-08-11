@@ -293,6 +293,22 @@ namespace DCIT318_Assignment3
 
         public override string ToString() => $"GroceryItem #{Id}: {Name} Quantity: {Quantity}, Expiry: {ExpiryDate:yyyy-MM-dd}";
     }
+    // Custom exceptions
+    public class DuplicateItemException : Exception
+    {
+        public DuplicateItemException(string message) : base(message) { }
+    }
+
+    public class ItemNotFoundException : Exception
+    {
+        public ItemNotFoundException(string message) : base(message) { }
+    }
+
+    public class InvalidQuantityException : Exception
+    {
+        public InvalidQuantityException(string message) : base(message) { }
+    }
+
 
 
 
