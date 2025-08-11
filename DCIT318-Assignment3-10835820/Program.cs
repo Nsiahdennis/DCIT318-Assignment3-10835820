@@ -680,6 +680,22 @@ namespace DCIT318_Assignment3
             {
                 Console.WriteLine($"Unexpected error: {ex.Message}");
             }
+            // Question 5  - Inventory logger
+            Console.WriteLine("=== InventoryApp Demo ===");
+            var invApp = new InventoryApp();
+            invApp.SeedSampleData();
+            invApp.SaveData();
+
+            // simulate clearing memory/new session
+            var invApp2 = new InventoryApp();
+            invApp2.LoadData();
+            invApp2.PrintAllItems();
+
+            Console.WriteLine("All demos finished. Press any key to exit.");
+            Console.ReadKey();
+        }
+    }
+}
 
 
 
