@@ -162,4 +162,54 @@ namespace DCIT318_Assignment3
         public override string ToString() => $"Patient {Name} (ID: {Id}, Age: {Age}, Gender: {Gender})";
     }
     // Prescription
+    public class Prescription
+    {
+        public int Id { get; }
+        public int PatientId { get; }
+        public string MedicationName { get; }
+        public DateTime DateIssued { get; }
+
+        public Prescription(int id, int patientId, string medicationName, DateTime dateIssued)
+        {
+            Id = id;
+            PatientId = patientId;
+            MedicationName = medicationName;
+            DateIssued = dateIssued;
+        }
+
+        public override string ToString() => $"Prescription #{Id}: {MedicationName} (Issued: {DateIssued:yyyy-MM-dd})";
+    }
+
+    public class HealthSystemApp
+    {
+        private readonly Repository<Patient> _patientRepo = new();
+        private readonly Repository<Prescription> _prescriptionRepo = new();
+        private readonly Dictionary<int, List<Prescription>> _prescriptionMap = new();
+
+        public void SeedData()
+        {
+            // Add 2-3 patients
+            _patientRepo.Add(new Patient(1, "Alice Johnson", 30, "Female"));
+            _patientRepo.Add(new Patient(2, "Bob Mensah", 45, "Male"));
+            _patientRepo.Add(new Patient(3, "Clara Appiah", 22, "Female"));
+
+            // Add 4-5 prescriptions (valid PatientIds)
+            _prescriptionRepo.Add(new Prescription(1, 1, "Amoxicillin", DateTime.Now.AddDays(-10)));
+            _prescriptionRepo.Add(new Prescription(2, 1, "Ibuprofen", DateTime.Now.AddDays(-5)));
+            _prescriptionRepo.Add(new Prescription(3, 2, "Atorvastatin", DateTime.Now.AddDays(-20)));
+            _prescriptionRepo.Add(new Prescription(4, 3, "Metformin", DateTime.Now.AddDays(-2)));
+        }
+
+        public void BuildPrescriptionMap()
+        {
+            _prescriptionMap.Clear();
+            var allPrescriptions = _prescriptionRepo.GetAll();
+            foreach (var p in allPrescriptions)
+            {
+                if (!_prescriptionMap.ContainsKey(p.PatientId))
+                    _prescriptionMap[p.PatientId] = new List<Prescription>();
+                _prescriptionMap[p.PatientId].Add(p);
+            }
+        }
+
 
