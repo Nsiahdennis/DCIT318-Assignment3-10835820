@@ -247,6 +247,15 @@ namespace DCIT318_Assignment3
             Console.WriteLine("HealthSystemApp finished.\n");
         }
     }
+    // QUESTION 3 - Warehouse Manager
+    // Marker interface for inventory items
+    public interface IInventoryItem
+    {
+        int Id { get; }
+        string Name { get; }
+        int Quantity { get; set; }
+    }
+
 
 
 
