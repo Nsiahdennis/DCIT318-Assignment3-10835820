@@ -255,7 +255,7 @@ namespace DCIT318_Assignment3
         string Name { get; }
         int Quantity { get; set; }
     }
-
+    // ElectronicItem
 
 
 
