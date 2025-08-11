@@ -275,6 +275,24 @@ namespace DCIT318_Assignment3
 
         public override string ToString() => $"ElectronicItem #{Id}: {Name} ({Brand}) Quantity: {Quantity}, Warranty: {WarrantyMonths} months";
     }
+    // GroceryItem
+    public class GroceryItem : IInventoryItem
+    {
+        public int Id { get; }
+        public string Name { get; }
+        public int Quantity { get; set; }
+        public DateTime ExpiryDate { get; }
+
+        public GroceryItem(int id, string name, int quantity, DateTime expiryDate)
+        {
+            Id = id;
+            Name = name;
+            Quantity = quantity;
+            ExpiryDate = expiryDate;
+        }
+
+        public override string ToString() => $"GroceryItem #{Id}: {Name} Quantity: {Quantity}, Expiry: {ExpiryDate:yyyy-MM-dd}";
+    }
 
 
 
