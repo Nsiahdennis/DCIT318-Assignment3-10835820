@@ -379,6 +379,53 @@ namespace DCIT318_Assignment3
             }
             Console.WriteLine();
         }
+        public void IncreaseStock<T>(InventoryRepository<T> repo, int id, int quantity) where T : IInventoryItem
+        {
+            try
+            {
+                var item = repo.GetItemById(id); // may throw
+                if (quantity < 0) throw new InvalidQuantityException("Quantity to add cannot be negative.");
+                repo.UpdateQuantity(id, item.Quantity + quantity);
+                Console.WriteLine($"Increased stock for item {id} by {quantity}. New qty: {repo.GetItemById(id).Quantity}");
+            }
+            catch (Exception ex) when (ex is ItemNotFoundException || ex is InvalidQuantityException)
+            {
+                Console.WriteLine($"Error increasing stock: {ex.Message}");
+            }
+        }
+
+        public void RemoveItemById<T>(InventoryRepository<T> repo, int id) where T : IInventoryItem
+        {
+            try
+            {
+                repo.RemoveItem(id);
+                Console.WriteLine($"Removed item with ID {id} from repository.");
+            }
+            catch (Exception ex) when (ex is ItemNotFoundException)
+            {
+                Console.WriteLine($"Error removing item: {ex.Message}");
+            }
+        }
+
+        public void RunDemo()
+        {
+            Console.WriteLine("=== WareHouseManager Demo ===");
+            SeedData();
+
+            // Print groceries and electronics
+            PrintAllItems(_groceries);
+            PrintAllItems(_electronics);
+
+            // Try to add a duplicate (electronics ID 1 already exists)
+            try
+            {
+                Console.WriteLine("Attempting to add duplicate electronic item (ID 1)...");
+                _electronics.AddItem(new ElectronicItem(1, "Tablet", 3, "TabCo", 12));
+            }
+            catch (DuplicateItemException ex)
+            {
+                Console.WriteLine($"Caught exception: {ex.Message}");
+            }
 
 
 
