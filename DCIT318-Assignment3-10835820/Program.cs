@@ -631,17 +631,55 @@ namespace DCIT318_Assignment3
         {
             Console.WriteLine("DCIT 318 - Assignment 3 Demo\n");
 
-            // Question 1 Demo
+            // Question 1 
             var financeApp = new FinanceApp();
             financeApp.Run();
 
-            // Question 2 Demo
+            // Question 2 
             var healthApp = new HealthSystemApp();
             healthApp.Run();
 
-            // Question 3 Demo
+            // Question 3 
             var warehouse = new WareHouseManager();
             warehouse.RunDemo();
+            // Question 4 Demo - Student file processing
+            Console.WriteLine("=== StudentResultProcessor Demo ===");
+            var studentProcessor = new StudentResultProcessor();
+
+            // Create a sample input file in the working dir
+            var sampleInputPath = "students_input.txt";
+            var sampleOutputPath = "students_report.txt";
+
+            // Write some sample lines (valid and purposely one invalid could be tried)
+            File.WriteAllLines(sampleInputPath, new[]
+            {
+                "101,Alice Smith,84",
+                "102,Ben Johnson,73",
+                "103,Carla Brown,58"
+            });
+
+            try
+            {
+                var students = studentProcessor.ReadStudentsFromFile(sampleInputPath);
+                studentProcessor.WriteReportToFile(students, sampleOutputPath);
+                Console.WriteLine($"Student report written to {sampleOutputPath}\n");
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Input file not found.");
+            }
+            catch (InvalidScoreFormatException ex)
+            {
+                Console.WriteLine($"Invalid score format: {ex.Message}");
+            }
+            catch (MissingFieldException ex)
+            {
+                Console.WriteLine($"Missing field: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected error: {ex.Message}");
+            }
 
 
 
