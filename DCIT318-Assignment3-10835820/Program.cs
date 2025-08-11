@@ -211,5 +211,30 @@ namespace DCIT318_Assignment3
                 _prescriptionMap[p.PatientId].Add(p);
             }
         }
+        public void PrintAllPatients()
+        {
+            Console.WriteLine("=== Patients ===");
+            foreach (var patient in _patientRepo.GetAll())
+            {
+                Console.WriteLine(patient);
+            }
+            Console.WriteLine();
+        }
+
+        public void PrintPrescriptionsForPatient(int patientId)
+        {
+            Console.WriteLine($"=== Prescriptions for Patient ID {patientId} ===");
+            if (_prescriptionMap.TryGetValue(patientId, out var list))
+            {
+                foreach (var p in list)
+                    Console.WriteLine(p);
+            }
+            else
+            {
+                Console.WriteLine("No prescriptions found for this patient.");
+            }
+            Console.WriteLine();
+        }
+
 
 
